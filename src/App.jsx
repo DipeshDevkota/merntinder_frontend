@@ -8,7 +8,7 @@ import appStore from "./utils/appStore"
 import Connections from "./components/Connections"
 import Feed from "./components/Feed";
 import Requests from "./components/Requests";
-// import Chat from "./components/Chat";
+import Chat from "./components/Chat";
 function App() {
   return (
     <>
@@ -22,7 +22,7 @@ function App() {
        <Route path="/connections" element={<Connections/>}/>
        <Route path="/requests" element={<Requests/>}/>
        <Route path="/profile" element={<Profile/>}/>
-       {/* <Route path="/chat/:id" element={<Chat/>}/> */}
+       <Route path="/chat/:id" element={<Chat/>}/>
 
       </Route>
 

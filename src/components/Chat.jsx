@@ -9,75 +9,79 @@ const Chat = () => {
     const { id } = useParams();
     const user = useSelector(store => store.user);
     const userId = user._id;
-    const socket = useRef(null); // Using ref to persist the socket across re-renders
+    const socketRef = useRef(null); // Ref to persist the socket connection
 
     useEffect(() => {
-        // Only create socket connection if it's not already initialized
-        if (!socket.current) {
-            socket.current = createSocketConnection();
-            console.log("Socket connected");
-            
-            // Emit joinChat event only once when the connection is established
-            socket.current.emit("joinChat", {
-                id,
-                firstName: user.firstName,
-                userId,
-            });
+        // Create socket connection once
+        const socket = createSocketConnection();
+        socketRef.current = socket;
 
-            // Listen for incoming messages
-            socket.current.on("messageReceived", ({ firstName, text }) => {
-                console.log(firstName + " received: " + text);
-                setMessages(prevMessages => [...prevMessages, { firstName, text }]);
-            });
-        }
+        // Join the chat room
+        socket.emit("joinChat", {
+            id,
+            firstName: user.firstName,
+            userId,
+        });
 
-        // Cleanup on component unmount (disconnect socket)
+        // Listen for incoming messages
+        socket.on("messageReceived", ({ firstName, text }) => {
+            console.log(firstName + " received: " + text);
+            setMessages(prevMessages => [...prevMessages, { firstName, text }]);
+        });
+
+        // Cleanup socket connection on unmount
         return () => {
-            if (socket.current) {
-                socket.current.disconnect();
-                socket.current = null; // Make sure to clear the reference on disconnect
-                console.log("Socket disconnected");
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current = null;
             }
         };
-    }, []); // Empty dependency array ensures this effect runs only once on mount
+    }, [id, userId, user.firstName]);
 
     const sendMessage = () => {
         if (newMessage.trim()) {
-            // Send message only if socket is established
-            socket.current.emit("sendMessage", {
+            // Emit the message via the existing socket connection
+            socketRef.current.emit("sendMessage", {
                 id,
                 firstName: user.firstName,
                 text: newMessage,
                 userId,
             });
 
-            // Optionally, update the local message list immediately to show the sent message
-            setMessages(prevMessages => [...prevMessages, { firstName: user.firstName, text: newMessage }]);
-            setNewMessage(''); // Clear the input field after sending
+            // Clear the input field after sending
+            setNewMessage('');
         }
     };
 
     return (
-        <div className='w-full md:w-full lg:w-1/2 mx-1 border border-gray-300 rounded-lg shadow-lg m-2 h-[90vh] flex flex-col bg-white'>
-            <h1 className='p-5 text-xl font-semibold text-gray-800 border-b border-gray-300'>Chat</h1>
-            <div className='flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50 rounded-lg'>
-                {/* Display messages */}
+        <div className="w-3/4 mx-auto border border-gray-600 m-5 h-[70vh] flex flex-col">
+            <h1 className="p-5 border-b border-gray-600">Chat</h1>
+            <div className="flex-1 overflow-scroll p-5">
                 {messages.map((msg, index) => (
-                    <div key={index}>
-                        <strong>{msg.firstName}: </strong>{msg.text}
+                    <div
+                        key={index}
+                        className={
+                            "chat " +
+                            (user.firstName === msg.firstName ? "chat-end" : "chat-start")
+                        }
+                    >
+                        <div className="chat-header">
+                            {`${msg.firstName}`}
+                            <time className="text-xs opacity-50"> 2 hours ago</time>
+                        </div>
+                        <div className="chat-bubble">{msg.text}</div>
+                        <div className="chat-footer opacity-50">Seen</div>
                     </div>
                 ))}
             </div>
-            <div className='p-4 border-t border-gray-300 flex items-center gap-3'>
-                <input 
-                    value={newMessage} // Bind the input to newMessage state
-                    onChange={(e) => setNewMessage(e.target.value)} // Update state on input change
-                    className='flex-1 bg-gray-100 text-gray-800 rounded-lg p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200'
-                    placeholder="Type your message..."
+            <div className="p-5 border-t border-gray-600 flex items-center gap-2">
+                <input
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    className="flex-1 border border-gray-500 text-gray-500 rounded p-2"
+                    placeholder="Type a message..."
                 />
-                <button 
-                    onClick={sendMessage} 
-                    className='bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none transition-all duration-200'>
+                <button onClick={sendMessage} className="btn btn-secondary">
                     Send
                 </button>
             </div>

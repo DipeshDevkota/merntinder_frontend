@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { createSocketConnection } from '../utils/socket';
 import { useSelector } from 'react-redux';
@@ -9,45 +9,53 @@ const Chat = () => {
     const { id } = useParams();
     const user = useSelector(store => store.user);
     const userId = user._id;
+    const socket = useRef(null); // Using ref to persist the socket across re-renders
 
     useEffect(() => {
-        const socket = createSocketConnection();
+        // Only create socket connection if it's not already initialized
+        if (!socket.current) {
+            socket.current = createSocketConnection();
+            console.log("Socket connected");
+            
+            // Emit joinChat event only once when the connection is established
+            socket.current.emit("joinChat", {
+                id,
+                firstName: user.firstName,
+                userId,
+            });
 
-        // As soon as the page gets loaded, the socket connection is made and joinChat event is emitted
-        socket.emit("joinChat", 
-          { id,
-           firstName: user.firstName, 
-           userId,
-           });
+            // Listen for incoming messages
+            socket.current.on("messageReceived", ({ firstName, text }) => {
+                console.log(firstName + " received: " + text);
+                setMessages(prevMessages => [...prevMessages, { firstName, text }]);
+            });
+        }
 
-        // Listen for incoming messages
-        socket.on("messageReceived", ({ firstName, text }) => {
-            console.log(firstName + " received: " + text);
-            setMessages(prevMessages => [...prevMessages, { firstName, text }]);
-        });
-
+        // Cleanup on component unmount (disconnect socket)
         return () => {
-            socket.disconnect();
+            if (socket.current) {
+                socket.current.disconnect();
+                socket.current = null; // Make sure to clear the reference on disconnect
+                console.log("Socket disconnected");
+            }
         };
-    }, [id, userId, user.firstName]);
+    }, []); // Empty dependency array ensures this effect runs only once on mount
 
     const sendMessage = () => {
         if (newMessage.trim()) {
-            const socket = createSocketConnection();
-            socket.emit("sendMessage", {
+            // Send message only if socket is established
+            socket.current.emit("sendMessage", {
                 id,
                 firstName: user.firstName,
                 text: newMessage,
                 userId,
             });
 
-            // Optionally, update your local message list immediately to show the sent message
+            // Optionally, update the local message list immediately to show the sent message
             setMessages(prevMessages => [...prevMessages, { firstName: user.firstName, text: newMessage }]);
             setNewMessage(''); // Clear the input field after sending
         }
     };
-
-    console.log(sendMessage)
 
     return (
         <div className='w-full md:w-full lg:w-1/2 mx-1 border border-gray-300 rounded-lg shadow-lg m-2 h-[90vh] flex flex-col bg-white'>

@@ -65,12 +65,12 @@ const Navbar = () => {
               </li>
               <li>
               <Link to='/connections' className="justify-between">
-                <div>Connections</div>
+                <a>Connections</a>
               </Link>
               </li>
               <li>
               <Link to='/requests' className="justify-between">
-                <div>Requests</div>
+                <a>Requests</a>
               </Link>
               </li>
               <li>

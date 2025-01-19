@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { createSocketConnection } from '../utils/socket';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { BASE_URL } from '../utils/constants';
 
 const Chat = () => {
     const [newMessage, setNewMessage] = useState(''); // Single message state for the input
@@ -52,6 +54,18 @@ const Chat = () => {
             setNewMessage('');
         }
     };
+
+
+    useEffect(()=>{
+        const fetchMesssage= async()=>{
+            const data= await axios.get(BASE_URL+'/chatmessage/'+id,{withCredentials:true});
+            console.log("Data is:",data)
+          }
+
+          fetchMesssage();
+    },[])
+
+
 
     return (
         <div className="w-3/4 mx-auto border border-gray-600 m-5 h-[70vh] flex flex-col">

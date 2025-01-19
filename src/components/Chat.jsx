@@ -56,14 +56,29 @@ const Chat = () => {
     };
 
 
+
+
     useEffect(()=>{
         const fetchMesssage= async()=>{
-            const data= await axios.get(BASE_URL+'/chatmessage/'+id,{withCredentials:true});
-            console.log("Data is:",data)
-          }
+            const chat= await axios.get(BASE_URL+'/chatmessage/'+id,{withCredentials:true});
+            console.log("Data is:",chat)
+
+          
+            const chatMessage= chat?.data?.messages.map((msg)=>{
+                return {
+                    firstName: msg?.firstName,
+                    lastName:msg?.lastName,
+                    text:msg.text
+                };
+            });
+            setMessages(chatMessage)
+          };
 
           fetchMesssage();
     },[])
+
+
+
 
 
 

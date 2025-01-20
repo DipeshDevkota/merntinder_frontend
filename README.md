@@ -1,6 +1,13 @@
 # MERN Frontend Project
 
 This project is a frontend application built using React.js, Redux Toolkit, and Tailwind CSS. It is part of a MERN stack application that allows users to interact with each other in real-time. Below is a detailed description of the features and functionalities of this project.
+## Usage
+
+1. Log in to the application.
+2. Navigate to the feed to see all logged-in users.
+3. Send interest or ignore users as desired.
+4. Manage connection requests by accepting or rejecting them.
+5. Communicate in real-time with connected users on accepting the connection request. TensorFlow.js is used to filter inappropriate messages to ensure safe communication.
 
 ## Features
 
@@ -65,13 +72,7 @@ This project is a frontend application built using React.js, Redux Toolkit, and 
      npm start
      ```
 
-## Usage
 
-1. Log in to the application.
-2. Navigate to the feed to see all logged-in users.
-3. Send interest or ignore users as desired.
-4. Manage connection requests by accepting or rejecting them.
-5. Communicate in real-time with connected users on accepting the        connection request.
 
 
 

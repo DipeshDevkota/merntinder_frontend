@@ -30,8 +30,7 @@ This project is a frontend application built using React.js, Redux Toolkit, and 
 
 - **Real-time Communication**: Users can communicate in real-time with the help of web sockets (Socket.io).
     ![Connection Request](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-47-16.png)
-
-      ![Chat](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-48-50.png)
+   ![Chat](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-48-50.png)
 
 
 - **Message Filtering**: TensorFlow.js is used to filter inappropriate messages to ensure safe communication.

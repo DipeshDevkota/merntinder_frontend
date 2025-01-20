@@ -5,14 +5,28 @@ This project is a frontend application built using React.js, Redux Toolkit, and 
 ## Features
 
 - **User Authentication**: Users can log in to the application.
+![Login](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-43-16.png)
+- **Update Profile**: Logged-in users can update thier profile  that will be rendered as similar to other users in feed
+![UpdateProfile](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-44-31.png)
 - **Feed Navigation**: Logged-in users can navigate to the feed to see all other logged-in users.
+![Feed](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-45-16.png)
+
 - **Interest and Ignore**: Users can send interest or ignore other users.
     - **Send Interest**: When User A sends interest to User B, User B will see the request in their connection requests.
     - **Ignore**: If User A clicks the ignore button, User B will be removed from the feed.
+    ![Connection Request](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-46-09.png)
+
 - **Connection Requests**: Users can accept or reject connection requests.
     - **Accept Request**: On accepting a request, users can communicate in real-time using web sockets (Socket.io).
     - **Reject Request**: If User B rejects the request, it will be removed from the requests and the feed.
+
+
 - **Real-time Communication**: Users can communicate in real-time with the help of web sockets (Socket.io).
+    ![Connection Request](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-47-16.png)
+
+      ![Chat](https://github.com/DipeshDevkota/merntinder_frontend/blob/main/Screenshot%20from%202025-01-20%2018-48-50.png)
+
+
 - **Message Filtering**: TensorFlow.js is used to filter inappropriate messages to ensure safe communication.
 
 ## Tech Stack
@@ -29,6 +43,8 @@ This project is a frontend application built using React.js, Redux Toolkit, and 
 ## Folder Structure
 
 - **utils**: Contains utility functions and configurations for Redux Toolkit and other functionalities.
+
+
 
 ## Installation
 
@@ -55,14 +71,7 @@ This project is a frontend application built using React.js, Redux Toolkit, and 
 2. Navigate to the feed to see all logged-in users.
 3. Send interest or ignore users as desired.
 4. Manage connection requests by accepting or rejecting them.
-5. Communicate in real-time with connected users.
+5. Communicate in real-time with connected users on accepting the        connection request.
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License.
 
 

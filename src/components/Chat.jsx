@@ -66,8 +66,8 @@ const Chat = () => {
           
             const chatMessage= chat?.data?.messages.map((msg)=>{
                 return {
-                    firstName: msg?.firstName,
-                    lastName:msg?.lastName,
+                    firstName: msg?.senderId?.firstName,
+                    lastName:msg?.senderId?.lastName,
                     text:msg.text
                 };
             });

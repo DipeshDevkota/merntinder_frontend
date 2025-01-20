@@ -7,7 +7,7 @@ This project is a frontend application built using React.js, Redux Toolkit, and 
 2. Navigate to the feed to see all logged-in users.
 3. Send interest or ignore users as desired.
 4. Manage connection requests by accepting or rejecting them.
-5. Communicate in real-time with connected users on accepting the connection request. TensorFlow.js is used to filter inappropriate messages to ensure safe communication.
+5. Communicate in real-time with connected users on accepting the connection request using socket.io. TensorFlow.js is used to filter inappropriate messages to ensure safe communication.
 
 ## Features
 
